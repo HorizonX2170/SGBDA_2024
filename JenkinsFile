@@ -20,6 +20,7 @@ pipeline {
             }
         }
 		    stage ('Delete RPM file') {
+                
             steps { 
                 echo 'Delete RPM and the Oracle Database RPM packages'
                 sh script: "sudo su - root bash -c 'rm oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'"

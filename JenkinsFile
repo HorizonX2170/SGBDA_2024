@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ora-x1' }
+    agent any
     stages {
             stage ('Download Required RPM') {
             steps { 
@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        
+
            stage ('Install Database Software') {
             steps { 
                 echo 'Install Oracle Oracle RDBMS software'

@@ -4,8 +4,7 @@ pipeline {
         stage('Download Required Software') {
             steps {
                 echo 'Download Oracle Preinstallation and Database Software'
-                bat 'powershell -Command "(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm\')"'
-                bat 'powershell -Command "(New-Object System.Net.WebClient).DownloadFile(\'https://path/to/oracle-database-ee-21c-1.0-1.x86_64.rpm\', \'C:\\temp\\oracle-database-ee-21c-1.0-1.x86_64.rpm\')"'
+                bat 'powershell -Command "(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm\')"'
             }
         }
         stage('Install Required Software') {

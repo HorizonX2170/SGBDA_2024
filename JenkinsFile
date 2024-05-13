@@ -12,10 +12,10 @@ pipeline {
         stage('Install Required Software') {
             steps {
                 echo 'Install Oracle Preinstallation RPM'
-                bat 'F:\\fichier\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
+                bat 'rpm -ivh F:\\fichier\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
 
                 echo 'Install Oracle Database Software'
-                bat 'F:\\fichier\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
+                bat 'rpm -ivh F:\\fichier\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
             }
         }
         stage('Delete RPM Files') {

@@ -27,6 +27,7 @@ pipeline {
             }
         }
         stage('Create Database') {
+            
             steps {
                 echo 'Configure Oracle Database'
                 bat 'F:\\path\\to\\oracle\\executable\\configure.exe'

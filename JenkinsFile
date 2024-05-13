@@ -1,32 +1,34 @@
 pipeline {
     agent any
     stages {
-        stage('Run PowerShell Script') {
+        stage('Download Required Software') {
             steps {
                 script {
-                    echo 'Running PowerShell script'
-                    powershell '''
-                    $users = Get-ADUser -Filter * -Properties *
-                    $blocked_users = $users | Where-Object { $_.accountlockouttime -ge (Get-Date).AddMinutes(-1440)} | Select-Object Name, AccountLockoutTime
-
-                    if ($blocked_users) {
-                        $output = "Role;Server;Level;Message;Sender;Description;" + [Environment]::NewLine +
-                                  "SMS;Win1;0;Blocker: $($blocked_users.Name -join ', ');SMS;Information about blocked domain users;"
-                    } else {
-                        $output = ""
-                    }
-
-                    $output | Set-Content -Path "C:\\jenkins\\sendsms_blocker24h.txt" -Encoding UTF8
-                    '''
+                    echo 'Download Oracle Preinstallation and Database Software'
+                    powershell '(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\')'
                 }
             }
         }
-        stage('Verify Output') {
+        stage('Install Required Software') {
             steps {
-                script {
-                    echo 'Verifying output file'
-                    bat 'type C:\\jenkins\\sendsms_blocker24h.txt'
-                }
+                echo 'Install Oracle Preinstallation RPM'
+                bat 'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
+
+                echo 'Install Oracle Database Software'
+                bat 'C:\\temp\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
+            }
+        }
+        stage('Delete RPM Files') {
+            steps {
+                echo 'Delete RPM Files'
+                bat 'del C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
+                bat 'del C:\\temp\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
+            }
+        }
+        stage('Create Database') {
+            steps {
+                echo 'Configure Oracle Database'
+                bat 'C:\\path\\to\\oracle\\executable\\configure.exe'
             }
         }
     }

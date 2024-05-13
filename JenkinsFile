@@ -3,14 +3,16 @@ pipeline {
     stages {
         stage('Download Required Software') {
             steps {
-                echo 'Download Oracle Preinstallation and Database Software'
-                bat 'powershell -Command "(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm\')"'
+                script {
+                    echo 'Download Oracle Preinstallation and Database Software'
+                    powershell '(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\')'
+                }
             }
         }
         stage('Install Required Software') {
             steps {
                 echo 'Install Oracle Preinstallation RPM'
-                bat 'C:\\temp\\oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm'
+                bat 'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
 
                 echo 'Install Oracle Database Software'
                 bat 'C:\\temp\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
@@ -19,7 +21,7 @@ pipeline {
         stage('Delete RPM Files') {
             steps {
                 echo 'Delete RPM Files'
-                bat 'del C:\\temp\\oracle-database-preinstall-21c-1.0-1.el7.x86_64.rpm'
+                bat 'del C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm'
                 bat 'del C:\\temp\\oracle-database-ee-21c-1.0-1.x86_64.rpm'
             }
         }

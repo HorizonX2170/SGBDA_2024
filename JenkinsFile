@@ -5,7 +5,18 @@ pipeline {
             steps {
                 script {
                     echo 'Download Oracle Preinstallation and Database Software'
-                    powershell '(New-Object System.Net.WebClient).DownloadFile(\'https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\', \'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm\')'
+                    powershell '''
+                    $webClient = New-Object System.Net.WebClient
+                    try {
+                        $webClient.DownloadFile('https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm', 'C:\\temp\\oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm')
+                        Write-Output "Download completed successfully."
+                    } catch {
+                        Write-Error $_.Exception.Message
+                        exit 1
+                    } finally {
+                        $webClient.Dispose()
+                    }
+                    '''
                 }
             }
         }

@@ -9,7 +9,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Install Required Software') {
             steps {
                 echo 'Install Oracle Preinstallation RPM'
